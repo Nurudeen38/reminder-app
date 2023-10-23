@@ -1,34 +1,58 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import React from "react";
-import { colors } from "../utils/colors";
-import { fontSizes, spacing } from "../utils/sizes";
+import React from 'react';
+import { View, StyleSheet, FlatList, Text, SafeAreaView } from 'react-native';
 
-export default function FocusHistory({ history }) {
-  if (!history || !history.length) return <Text style={styles.title}>We've haven't focused on anything yet</Text>;
+import { fontSizes, spacing } from '../utils/sizes';
+import { RoundedButton } from '../components/RoundedButton';
 
-  const renderItem = ({ item }) => <Text style={styles.item}>- {item}</Text>;
+const HistoryItem = ({ item, index }) => {
+  return <Text style={styles.historyItem(item.status)}>{item.subject}</Text>;
+};
+
+ const FocusHistory = ({ focusHistory, onClear }) => {
+  
+    const clearHistory = () => {
+    onClear();
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Things we've focused on</Text>
-      <FlatList data={history} renderItem={renderItem} />
-    </View>
+    <>
+      <SafeAreaView style={{ flex: 0.5, alignItems: 'center' }}>
+        {!!focusHistory.length && (
+          <>
+            <Text style={styles.title}>Things we've focused on</Text>
+            <FlatList
+              style={{ flex: 1 }}
+              contentContainerStyle={{ flex: 1, alignItems: 'center' }}
+              data={focusHistory}
+              renderItem={HistoryItem}
+            />
+            <View style={styles.clearContainer}>
+              <RoundedButton
+                size={75}
+                title="Clear"
+                onPress={() => onClear()}
+              />
+            </View>
+          </>
+        )}
+      </SafeAreaView>
+    </>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    padding: spacing.md,
-    flex:1,
-  },
+  historyItem: (status) => ({
+    color: status > 1 ? 'red' : 'green',
+    fontSize: fontSizes.md,
+  }),
   title: {
-    color: colors.white,
-    fontSize: fontSizes.md,
-    padding: spacing.md,
-    fontWeight: "bold",
+    color: 'white',
+    fontSize: fontSizes.lg,
   },
-  item: {
-    fontSize: fontSizes.md,
-    color: colors.white,
-    paddingTop:spacing.md
+  clearContainer: {
+    alignItems: 'center',
+    padding: spacing.md,
   },
 });
+
+export default FocusHistory

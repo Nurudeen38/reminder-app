@@ -20,20 +20,19 @@ const PATTERN = [
 ];
 
 export default function Timer({ focusSubject, onTimerEnd, clearSubject }) {
-    useKeepAwake()
-    const [isStarted, setIsStarted] = useState(false);
+  useKeepAwake();
+  const [isStarted, setIsStarted] = useState(false);
   const [progress, setProgress] = useState(1);
   const [minutes, setMinutes] = useState(0.2);
 
-  const handleTimeEnd = () => { 
-    Vibration.vibrate(PATTERN)
-    setIsStarted(false)
-    setProgress(1)
-    onTimerEnd(focusSubject)
-}
+  const handleTimeEnd = () => {
+    Vibration.vibrate(PATTERN);
+    setIsStarted(false);
+    setProgress(1);
+    onTimerEnd(focusSubject);
+  };
   return (
     <View style={styles.container}>
-      
       <View style={styles.countdown}>
         <Countdown
           minutes={minutes}
@@ -42,18 +41,18 @@ export default function Timer({ focusSubject, onTimerEnd, clearSubject }) {
           onProgress={setProgress}
         />
       </View>
-      
+
       <View style={{ paddingTop: spacing.lg }}>
         <Text style={styles.title}>Focusing on:</Text>
         <Text style={styles.task}>{focusSubject}</Text>
       </View>
-      
+
       <View style={{ paddingTop: spacing.sm }}>
         <ProgressBar progress={progress} color={colors.progressBar} />
       </View>
 
       <View style={styles.buttonWrapper}>
-            <Timing onChangeTime={setMinutes} />
+        <Timing onChangeTime={setMinutes} />
       </View>
       <View style={styles.buttonWrapper}>
         {!isStarted ? (
@@ -63,7 +62,7 @@ export default function Timer({ focusSubject, onTimerEnd, clearSubject }) {
         )}
       </View>
       <View style={styles.clearSubjectWrapper}>
-            <RoundedButton size={50} title="-" onPress={clearSubject} />
+        <RoundedButton size={50} title="-" onPress={clearSubject} />
       </View>
     </View>
   );
@@ -94,8 +93,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  clearSubjectWrapper:{
-    flexDirection:"row",
-    justifyContent:"center"
-  }
+  clearSubjectWrapper: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
 });
